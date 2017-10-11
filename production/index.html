@@ -46,8 +46,36 @@
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Bienvenido,</span>
-                <h2>Juan Carlos!</h2>
+                <span>Bienvenido</span>
+                <script type="text/javascript">firebase.auth().onAuthStateChanged(function(user) {
+                  if (user) {
+                    // User is signed in.
+                    var displayName = user.displayName;
+                    //var email = user.email;
+                    //var emailVerified = user.emailVerified;
+                    //var photoURL = user.photoURL;
+                    //var isAnonymous = user.isAnonymous;
+                    //var uid = user.uid;
+                    //var providerData = user.providerData;
+                    // ...
+                  } else {
+                    // User is signed out.
+                    // ...
+                  }
+
+                  var user = firebase.auth().currentUser;
+                  var name, email, uid, emailVerified;
+
+                  if (user != null) {
+                    name = user.displayName;
+                    email = user.email;
+                    emailVerified = user.emailVerified;
+                    uid = user.uid;
+                  }
+
+                });
+                </script>
+                <h2>Jesús Miguel</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -59,101 +87,16 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="index.html"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-          <!--      <ul class="nav child_menu">
-                      <li><a href="index.html">Dashboard</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
-                      <li><a href="index3.html">Dashboard3</a></li>
-                    </ul>
-                  </li>         -->
-                  <li><a><i class="fa fa-edit"></i> Calendario <span class="fa fa-chevron-down"></span></a>
-          <!--      <ul class="nav child_menu">
-                      <li><a href="form.html">General Form</a></li>
-                      <li><a href="form_advanced.html">Advanced Components</a></li>
-                      <li><a href="form_validation.html">Form Validation</a></li>
-                      <li><a href="form_wizards.html">Form Wizard</a></li>
-                      <li><a href="form_upload.html">Form Upload</a></li>
-                      <li><a href="form_buttons.html">Form Buttons</a></li>
-                    </ul>       -->
-                  </li>
-                  <li><a href="general_elements.html"><i class="fa fa-desktop"></i> Clima <span class="fa fa-chevron-down"></span></a>
-          <!--      <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a></li>
-                      <li><a href="media_gallery.html">Media Gallery</a></li>
-                      <li><a href="typography.html">Typography</a></li>
-                      <li><a href="icons.html">Icons</a></li>
-                      <li><a href="glyphicons.html">Glyphicons</a></li>
-                      <li><a href="widgets.html">Widgets</a></li>
-                      <li><a href="invoice.html">Invoice</a></li>
-                      <li><a href="inbox.html">Inbox</a></li>
-                      <li><a href="calendar.html">Calendar</a></li>
-                    </ul>       -->
-                  </li>
-        <!--      <li><a><i class="fa fa-table"></i> Estadística <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-                    </ul>
-                  </li>        -->
-                  <li><a href="chartjs.html"><i class="fa fa-bar-chart-o"></i> Estadística <span class="fa fa-chevron-down"></span></a>
-        <!--        <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Chart JS</a></li>
-                      <li><a href="chartjs2.html">Chart JS2</a></li>
-                      <li><a href="morisjs.html">Moris JS</a></li>
-                      <li><a href="echarts.html">ECharts</a></li>
-                      <li><a href="other_charts.html">Other Charts</a></li>
-                    </ul>       -->
-                  </li>
-        <!--      <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                      <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                    </ul>
-                  </li>         -->
+                  <li><a href="index.html"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a> </li>
+
+                  <li><a href="calendar.html"><i class="fa fa-edit"></i> Calendario <span class="fa fa-chevron-down"></span></a></li>
+
+                  <li><a href="general_elements.html"><i class="fa fa-desktop"></i> Clima <span class="fa fa-chevron-down"></span></a></li>
+
+                  <li><a href="chartjs.html"><i class="fa fa-bar-chart-o"></i> Estadística <span class="fa fa-chevron-down"></span></a></li>
+
                 </ul>
               </div>
-        <!--  <div class="menu_section">
-                <h3>Live On</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">E-commerce</a></li>
-                      <li><a href="projects.html">Projects</a></li>
-                      <li><a href="project_detail.html">Project Detail</a></li>
-                      <li><a href="contacts.html">Contacts</a></li>
-                      <li><a href="profile.html">Profile</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="page_403.html">403 Error</a></li>
-                      <li><a href="page_404.html">404 Error</a></li>
-                      <li><a href="page_500.html">500 Error</a></li>
-                      <li><a href="plain_page.html">Plain Page</a></li>
-                      <li><a href="login.html">Login Page</a></li>
-                      <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="#level1_1">Level One</a>
-                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                            </li>
-                            <li><a href="#level2_1">Level Two</a>
-                            </li>
-                            <li><a href="#level2_2">Level Two</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a href="#level1_2">Level One</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
-                </ul>
-              </div>            -->
 
             </div>
             <!-- /sidebar menu -->
@@ -188,7 +131,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">Juan Carlos
+                    <img src="images/img.jpg" alt="">Jesús Miguel
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -213,7 +156,7 @@
                     <li>
                       <a>
                         <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
+                        <span>e
                           <span>Jesús Pérez</span>
                           <span class="time">Hace 3 mins</span>
                         </span>
@@ -978,6 +921,25 @@
         <!-- /footer content -->
       </div>
     </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-database.js"></script>
+    <script>
+      // Initialize Firebase
+
+      var config = {
+        apiKey: "AIzaSyA3UfLthjMfftT9bv2MIFKr20IAxWwrlVw",
+        authDomain: "mi-huerta-3b0d3.firebaseapp.com",
+        databaseURL: "https://mi-huerta-3b0d3.firebaseio.com",
+        projectId: "mi-huerta-3b0d3",
+        storageBucket: "",
+        messagingSenderId: "968948534472"
+      };
+      firebase.initializeApp(config);
+    </script>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
