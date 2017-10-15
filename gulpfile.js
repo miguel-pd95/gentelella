@@ -12,8 +12,11 @@ gulp.task('scripts', function() {
     return gulp.src([
         'src/js/helpers/*.js',
         'src/js/*.js',
+        'production/*.js'
       ])
       .pipe(concat('custom.js'))
+      .pipe(gulp.dest(DEST+'/js'))
+      .pipe(concat('app.js'))
       .pipe(gulp.dest(DEST+'/js'))
       .pipe(rename({suffix: '.min'}))
       .pipe(uglify())
@@ -43,7 +46,7 @@ gulp.task('browser-sync', function() {
         server: {
             baseDir: './'
         },
-        startPath: './production/index.html'
+        startPath: './production/login.html'
     });
 });
 
