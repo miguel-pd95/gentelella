@@ -1,11 +1,11 @@
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyDlJ7B0Jd8Fmdp19Lkj6ynFRTkiEkhVFrY",
-  authDomain: "mi-huerta-ab9e3.firebaseapp.com",
-  databaseURL: "https://mi-huerta-ab9e3.firebaseio.com",
-  projectId: "mi-huerta-ab9e3",
+  apiKey: "AIzaSyCEp0bdCFPNFRX_pv6ulzoG_ZvtUofdDxQ",
+  authDomain: "mihuerta-d68f3.firebaseapp.com",
+  databaseURL: "https://mihuerta-d68f3.firebaseio.com",
+  projectId: "mihuerta-d68f3",
   storageBucket: "",
-  messagingSenderId: "1021303132524"
+  messagingSenderId: "515524220628"
 };
 firebase.initializeApp(config);
 

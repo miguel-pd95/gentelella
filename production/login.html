@@ -72,20 +72,20 @@
      * Handles the sign up button press.
      */
     function handleSignUp() {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
+      var email2 = document.getElementById('email2').value;
+      var password2 = document.getElementById('password2').value;
       //var username = document.getElementById('username').value;
-      if (email.length < 4) {
+      if (email2.length < 4) {
         alert('Please enter an email address.');
         return;
       }
-      if (password.length < 4) {
+      if (password2.length < 4) {
         alert('Please enter a password.');
         return;
       }
       // Sign in with email and pass.
       // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -214,10 +214,10 @@
             <form>
               <h1>Login</h1>
               <div>
-                <input id="txtEmail" type="text" class="form-control" placeholder="Email" required="" />
+                <input id="email" type="text" class="form-control" placeholder="Email" required="" />
               </div>
               <div>
-                <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña" required="" />
+                <input id="password" type="password" class="form-control" placeholder="Contraseña" required="" />
               </div>
               <div>
                 <button id="quickstart-sign-in" class="btn btn-default submit">Log in</button>
@@ -240,10 +240,10 @@
             <form>
               <h1>Crear Cuenta</h1>
               <div>
-                <input id="txtEmail2" type="email" class="form-control" placeholder="Email" required="" />
+                <input id="email2" type="email" class="form-control" placeholder="Email" required="" />
               </div>
               <div>
-                <input id="txtPassword2" type="password" class="form-control" placeholder="Contraseña" required="" />
+                <input id="password2" type="password" class="form-control" placeholder="Contraseña" required="" />
               </div>
               <div>
                 <button id="quickstart-sign-up" class="btn btn-default submit">Submit</button>
@@ -255,6 +255,17 @@
                 <p class="change_link">¿Eres un miembro activo?
                   <a href="#signin" class="to_register"> Log in </a>
                 </p>
+              </div>
+              <div class="quickstart-user-details-container">
+                <button class="mdl-button mdl-js-button mdl-button--raised" hidden="true" disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
+                &nbsp;&nbsp;&nbsp;
+                <button class="mdl-button mdl-js-button mdl-button--raised" hidden="true" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
+              </div>
+              <div class="quickstart-user-details-container">
+                Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+                <!-- ESTO ESTA COMENTADO, PERO ACTIVENLO PARA VER A DETALLE EL PROCESO COMPLETO -->
+                <div hidden="true">Firebase auth <code>currentUser</code> object value:</div>
+                <pre hidden="true"><code id="quickstart-account-details">null</code></pre>
               </div>
             </form>
           </section>
