@@ -147,6 +147,31 @@
       // [END sendpasswordemail];
     }
 
+    /*
+     * Gets a reference to the database service and reads contacts from DB
+     */
+     var database = firebase.database();
+
+     //global variables
+     var userID
+     firebase.auth().onAuthStateChanged(function(user) {
+       if (user) {
+         userID = user.uid;
+         console.log("~|~|~|~|~|~|~|USER SIGNED IN|~|~|~|~|~|~|~|~|~|~|");
+       } else {
+         console.log("~|~|~|~|~|~|~|NO USER SIGNED IN|~|~|~|~|~|~|~|~|~|~|");
+       }
+     });
+     var contactsList;
+
+     function readContacts(){
+       firebase.database().ref('users/' + userID).once("value", function(data) {
+         contactsList = data.val().contacts;
+         document.getElementByID("1stContactName").innerHTML = contactsList.tres.fullName;
+       });
+     }
+     readContacts();
+
     /**
      * initApp handles setting up UI event listeners and registering Firebase auth listeners:
      *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
