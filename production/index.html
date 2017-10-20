@@ -27,6 +27,189 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Creacion de manejo de sesion -->
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-auth.js"></script>
+    <script src="app.js"></script>
+
+      <script type="text/javascript">
+
+    /**
+     * Handles the sign in button press.
+     */
+    function toggleSignIn() {
+      if (firebase.auth().currentUser) {
+        // [START signout]
+        firebase.auth().signOut();
+        // [END signout]
+      } else {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
+        }
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START authwithemail]
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          document.getElementById('quickstart-sign-in').disabled = false;
+          // [END_EXCLUDE]
+        });
+      }
+      document.getElementById('quickstart-sign-in').disabled = true;
+    }
+
+    /**
+     * Handles the sign up button press.
+     */
+    function handleSignUp() {
+      var email2 = document.getElementById('email2').value;
+      var password2 = document.getElementById('password2').value;
+      //var username = document.getElementById('username').value;
+      if (email2.length < 4) {
+        alert('Please enter an email address.');
+        return;
+      }
+      if (password2.length < 4) {
+        alert('Please enter a password.');
+        return;
+      }
+      // Sign in with email and pass.
+      // [START createwithemail]
+      firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+      // [END createwithemail]
+    }
+
+    /**
+     * Sends an email verification to the user.
+     */
+    function sendEmailVerification() {
+      // [START sendemailverification]
+      firebase.auth().currentUser.sendEmailVerification().then(function() {
+        // Email Verification sent!
+        // [START_EXCLUDE]
+        alert('Email Verification Sent!');
+        // [END_EXCLUDE]
+      });
+      // [END sendemailverification]
+    }
+
+    function sendPasswordReset() {
+      var email = document.getElementById('email').value;
+      // [START sendpasswordemail]
+      firebase.auth().sendPasswordResetEmail(email).then(function() {
+        // Password Reset Email Sent!
+        // [START_EXCLUDE]
+        alert('Password Reset Email Sent!');
+        // [END_EXCLUDE]
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/invalid-email') {
+          alert(errorMessage);
+        } else if (errorCode == 'auth/user-not-found') {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+      // [END sendpasswordemail];
+    }
+
+    /**
+     * initApp handles setting up UI event listeners and registering Firebase auth listeners:
+     *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
+     *    out, and that is where we update the UI.
+     */
+    function initApp() {
+      // Listening for auth state changes.
+      // [START authstatelistener]
+      firebase.auth().onAuthStateChanged(function(user) {
+        // [START_EXCLUDE silent]
+        document.getElementById('quickstart-verify-email').disabled = true;
+        // [END_EXCLUDE]
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+          document.getElementById('quickstart-sign-in').textContent = 'Salir';
+          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+
+          // Ajustes Usuario
+          document.getElementById('header-username').textContent = email;
+
+          if (!emailVerified) {
+            document.getElementById('quickstart-verify-email').disabled = false;
+          }
+          // [END_EXCLUDE]
+        } else {
+          // User is signed out.
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+          document.getElementById('quickstart-sign-in').textContent = 'Acceder';
+          document.getElementById('quickstart-account-details').textContent = 'null';
+
+          ////////////////////////////////////////////////////////////////////////////////////
+          // Cambiar ubicacion de futura pagina al acceder a sesion
+          window.location.replace("login.html");
+          // Adaptar un logout para la salida del usuario en la nueva pagina que se direcciona
+          ////////////////////////////////////////////////////////////////////////////////////
+          // [END_EXCLUDE]
+        }
+        // [START_EXCLUDE silent]
+        document.getElementById('quickstart-sign-in').disabled = false;
+        // [END_EXCLUDE]
+      });
+      // [END authstatelistener]
+
+      document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+      document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
+      document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
+      document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+    }
+
+    window.onload = function() {
+      initApp();
+    };
+  </script>
+
   </head>
 
   <body class="nav-md">
@@ -47,35 +230,7 @@
               </div>
               <div class="profile_info">
                 <span>Bienvenido</span>
-                <script type="text/javascript">firebase.auth().onAuthStateChanged(function(user) {
-                  if (user) {
-                    // User is signed in.
-                    var displayName = user.displayName;
-                    //var email = user.email;
-                    //var emailVerified = user.emailVerified;
-                    //var photoURL = user.photoURL;
-                    //var isAnonymous = user.isAnonymous;
-                    //var uid = user.uid;
-                    //var providerData = user.providerData;
-                    // ...
-                  } else {
-                    // User is signed out.
-                    // ...
-                  }
-
-                  var user = firebase.auth().currentUser;
-                  var name, email, uid, emailVerified;
-
-                  if (user != null) {
-                    name = user.displayName;
-                    email = user.email;
-                    emailVerified = user.emailVerified;
-                    uid = user.uid;
-                  }
-
-                });
-                </script>
-                <h2>Jesús Miguel</h2>
+                <h2 id="header-username">Default</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -143,7 +298,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">Ayuda</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a></li>
+                    <li><a id="quickstart-sign-in" href="login.html"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a></li>
                   </ul>
                 </li>
 
@@ -548,24 +703,74 @@
       </div>
     </div>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-database.js"></script>
-    <script>
-      // Initialize Firebase
+    <div hidden="true">
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
 
-      var config = {
-        apiKey: "AIzaSyA3UfLthjMfftT9bv2MIFKr20IAxWwrlVw",
-        authDomain: "mi-huerta-3b0d3.firebaseapp.com",
-        databaseURL: "https://mi-huerta-3b0d3.firebaseio.com",
-        projectId: "mi-huerta-3b0d3",
-        storageBucket: "",
-        messagingSenderId: "968948534472"
-      };
-      firebase.initializeApp(config);
-    </script>
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form>
+              <h1>Login</h1>
+              <div>
+                <input id="email" type="text" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input id="password" type="password" class="form-control" placeholder="Contraseña" required="" />
+              </div>
+              <div>
+                <button id="quickstart-sign-in" class="btn btn-default submit">Log in</button>
+                <a class="reset_pass" href="#">¿Olvidaste tu contraseña?</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres un nuevo usuario?
+                  <a href="#signup" class="to_register"> Crear Cuenta </a>
+                </p>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Crear Cuenta</h1>
+              <div>
+                <input id="email2" type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input id="password2" type="password" class="form-control" placeholder="Contraseña" required="" />
+              </div>
+              <div>
+                <button id="quickstart-sign-up" class="btn btn-default submit">Submit</button>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres un miembro activo?
+                  <a href="#signin" class="to_register"> Log in </a>
+                </p>
+              </div>
+              <div class="quickstart-user-details-container">
+                <button class="mdl-button mdl-js-button mdl-button--raised" hidden="true" disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
+                &nbsp;&nbsp;&nbsp;
+                <button class="mdl-button mdl-js-button mdl-button--raised" hidden="true" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
+              </div>
+              <div class="quickstart-user-details-container">
+                Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+                <!-- ESTO ESTA COMENTADO, PERO ACTIVENLO PARA VER A DETALLE EL PROCESO COMPLETO -->
+                <div hidden="true">Firebase auth <code>currentUser</code> object value:</div>
+                <pre hidden="true"><code id="quickstart-account-details">null</code></pre>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
